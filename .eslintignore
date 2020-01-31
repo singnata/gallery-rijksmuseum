@@ -1,0 +1,4 @@
+dist/*
+src/widgets/*
+src/static/*
+src/karma.conf.js
