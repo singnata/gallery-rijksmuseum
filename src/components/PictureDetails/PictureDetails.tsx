@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { fetchPictureDetails } from '../../actions/pictureActions';
-import { AppState } from './../../reducers/index';
-import { PictureDetailsParam, FetchPictureDetailsTypes } from './../../constants/picturesActionTypes';
+import { fetchPictureDetails } from 'actions';
+import { AppState } from 'reducers';
+import { PictureDetailsParam, FetchPictureDetailsTypes } from 'constants/index';
 import { ImageWrapper, NoImage, PictureDetailsStyled } from './PictureDetailsStyles';
 
 export interface PictureDetailsProps {
@@ -19,15 +19,15 @@ const PictureDetails: React.FC<PictureDetailsProps> = (
 ): React.ReactElement => {
   useEffect(() => {
     const objectNumber = match.params.objectNumber;
+    console.log(objectNumber)
     fetchPictureDetailsAction(objectNumber);
-  }, [])
+  })
 
-  const isThereMaterial = picture && picture.artObject.materials && picture.artObject.materials.length !== 0;
-
-  const isThereObjectType = picture && picture.artObject.objectTypes && picture.artObject.objectTypes.length !== 0;
-
+  const isTherePictureDetails = picture && picture.artObject;
+  const isThereMaterial = isTherePictureDetails && picture.artObject.materials && picture.artObject.materials.length > 0;
+  const isThereObjectType = isTherePictureDetails && picture.artObject.objectTypes && picture.artObject.objectTypes.length > 0;
   const image =
-    picture && picture.artObject.hasImage ? (
+    isTherePictureDetails && picture.artObject.hasImage ? (
       <ImageWrapper>
         <img src={picture.artObject.webImage.url} alt={picture.title} />
       </ImageWrapper>
@@ -78,7 +78,7 @@ const PictureDetails: React.FC<PictureDetailsProps> = (
 
 const mapStateToProps = (state: AppState) => {
   return {
-    picture: state.picturesState.picture,
+    picture: state.pictures.picture,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch<FetchPictureDetailsTypes>) => {
@@ -93,4 +93,4 @@ const mapDispatchToProps = (dispatch: Dispatch<FetchPictureDetailsTypes>) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PictureDetails);
+)(React.memo(PictureDetails));

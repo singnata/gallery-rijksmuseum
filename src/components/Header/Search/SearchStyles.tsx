@@ -13,27 +13,26 @@ export const OrderByWrapper = styled.div`
   display: inline-block;
   cursor: pointer;
   position: relative;
+`
 
-  ul {
-    margin-left: 88px;
-    border: 2px solid #ccc;
-    border-radius: 20px;
-    width: 418px;
-    margin-top: 0;
-    position: absolute;
-    z-index: 10;
-    background-color: #eee;
-    padding: 0;
-
-    li {
-      border-bottom: 1px solid #ccc;
-      padding: 7px 32px;
-      &:last-child {
-        border-bottom: none;
-      }
-      &.selected {
-        background-color: #ccc;
-      }
+export const OptionsList = styled.ul`
+  margin-left: 88px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  width: 418px;
+  margin-top: 0;
+  position: absolute;
+  z-index: 10;
+  background-color: #eee;
+  padding: 0;
+  li {
+    border-bottom: 1px solid #ccc;
+    padding: 7px 32px;
+    &:last-child {
+      border-bottom: none;
+    }
+    &.selected {
+      background-color: #ccc;
     }
   }
 `

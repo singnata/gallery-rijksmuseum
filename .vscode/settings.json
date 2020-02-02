@@ -1,4 +1,7 @@
 {
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5"
+  "jsxBracketSameLine": false,
+  "trailingComma": "es5",
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 80
 }

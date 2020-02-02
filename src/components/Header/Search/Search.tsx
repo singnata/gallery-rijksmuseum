@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { AppState } from './../../../reducers/index';
+import { AppState } from 'reducers';
 import {
   SearchStyled,
   OrderByWrapper,
@@ -10,12 +10,11 @@ import {
   OrderByInput,
   OrderByClearButton,
   SearchClearButton,
-  SearchButton
-} from './SearchStyles'
-import { handleOrderByParamsChange, handleQueryParamChange } from '../../../actions/searchActions';
-import { fetchCollection } from '../../../actions/pictureActions';
-import { FetchCollectionTypes } from './../../../constants/picturesActionTypes';
-import { SearchTypes } from './../../../constants/searchActionTypes';
+  SearchButton,
+  OptionsList
+} from './SearchStyles';
+import { handleOrderByParamsChange, handleQueryParamChange, fetchCollection } from 'actions';
+import { FetchCollectionTypes, SearchTypes } from 'constants/index';
 
 interface OrderByLabels {
   [key: string]: string
@@ -106,19 +105,20 @@ const Search: React.FC<SearchProps> = ({
         <OrderByClearButton
           onClick={resetOrderByParams}
         >&times;</OrderByClearButton>
-        <ul className={isOrderByListOpened ? 'shown' : 'hidden'}>
-          {ORDER_BY_OPTIONS.map((option: string) => {
-            return (
-              <li
-                onClick={() => onSelectOrderByParams(option)}
-                key={option}
-                className={option === orderByParam ? 'selected' : ''}
-              >{ORDER_BY_LABELS[option]}</li>
-            )
-          })}
-        </ul>
+        {isOrderByListOpened &&
+          <OptionsList>
+            {ORDER_BY_OPTIONS.map((option: string) => {
+              return (
+                <li
+                  onClick={() => onSelectOrderByParams(option)}
+                  key={option}
+                  className={option === orderByParam ? 'selected' : ''}
+                >{ORDER_BY_LABELS[option]}</li>
+              )
+            })}
+        </OptionsList>
+        }
       </OrderByWrapper>
-
       <SearchWrapper>
         <form onSubmit={handleSearchSubmit}>
           <SearchInput
@@ -140,10 +140,10 @@ const Search: React.FC<SearchProps> = ({
 
 const mapStateToProps = (state: AppState) => {
   return {
-    pageNumber: state.paginationState.pageNumber,
-    pageSize: state.paginationState.pageSize,
-    queryParam: state.searchState.queryParam,
-    orderByParam: state.searchState.orderByParam,
+    pageNumber: state.pagination.pageNumber,
+    pageSize: state.pagination.pageSize,
+    queryParam: state.search.queryParam,
+    orderByParam: state.search.orderByParam,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|SearchTypes>) => {
@@ -160,4 +160,4 @@ const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|SearchTypes>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Search);
+)(React.memo(Search));

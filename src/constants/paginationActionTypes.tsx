@@ -1,15 +1,15 @@
-export const HANDLE_PAGE_SIZE = 'HANDLE_PAGE_SIZE';
-export const HANDLE_PAGE_NUMBER = 'HANDLE_PAGE_NUMBER';
+export const HANDLE_PAGE_SIZE_CHANGE = 'HANDLE_PAGE_SIZE_CHANGE';
+export const HANDLE_PAGE_NUMBER_CHANGE = 'HANDLE_PAGE_NUMBER_CHANGE';
 
-interface handlePageSizeAction {
-  type: typeof HANDLE_PAGE_SIZE,
+export interface HandlePageSizeChangeAction {
+  type: typeof HANDLE_PAGE_SIZE_CHANGE,
   pageSize: number
 }
-interface HandlePageNumberAction {
-  type: typeof HANDLE_PAGE_NUMBER,
+export interface HandlePageNumberChangeAction {
+  type: typeof HANDLE_PAGE_NUMBER_CHANGE,
   pageNumber: number
 }
-export type PaginationTypes = handlePageSizeAction | HandlePageNumberAction
+export type PaginationTypes = HandlePageSizeChangeAction | HandlePageNumberChangeAction
 
 export interface PaginationState {
   pageNumber: number,

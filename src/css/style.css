@@ -8,24 +8,8 @@ body {
   background-color: #eee;
 }
 
-.error,
-.no-found {
-  text-align: center;
-  margin: 50px auto;
-  width: 500px;
-}
-
 .collection-container {
   padding: 10px 100px;
-
-}
-
-.shown {
-  display: block;
-}
-
-.hidden {
-  display: none;
 }
 
 .active {
@@ -49,6 +33,7 @@ select::-ms-expand {
 ul {
   list-style: none;
 }
+
 a {
   text-decoration: none;
   color: inherit;

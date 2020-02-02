@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import App from './App';
-import PictureDetails from './components/PictureDetails/PictureDetails';
-import ErrorBoundary from './ErrorBoundary';
+import App from 'App';
+import PictureDetails from 'components/PictureDetails/PictureDetails';
+import ErrorBoundary from 'ErrorBoundary';
 
 const Router = () => (
   <BrowserRouter>

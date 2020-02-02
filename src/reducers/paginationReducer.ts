@@ -1,9 +1,9 @@
 import {
   PaginationState,
   PaginationTypes,
-  HANDLE_PAGE_SIZE,
-  HANDLE_PAGE_NUMBER,
-} from './../constants/paginationActionTypes';
+  HANDLE_PAGE_SIZE_CHANGE,
+  HANDLE_PAGE_NUMBER_CHANGE,
+} from 'constants/index';
 
 const initialState: PaginationState = {
   pageNumber: 1,
@@ -13,9 +13,9 @@ const initialState: PaginationState = {
 
 const paginationReducer = (state = initialState, action: PaginationTypes): PaginationState => {
   switch (action.type) {
-    case HANDLE_PAGE_SIZE:
+    case HANDLE_PAGE_SIZE_CHANGE:
       return { ...state, pageSize: action.pageSize };
-    case HANDLE_PAGE_NUMBER:
+    case HANDLE_PAGE_NUMBER_CHANGE:
       return { ...state, pageNumber: action.pageNumber };
     default:
       return state;

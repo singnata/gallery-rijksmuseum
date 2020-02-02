@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import PictureDetailsPopUp from '../PictureDetailsPopUp/PictureDetailsPopUp';
-import { AppState } from './../../../reducers/index';
-import { PictureParam } from './../../../constants/picturesActionTypes';
+import PictureDetailsPopUp from './../PictureDetailsPopUp/PictureDetailsPopUp';
+import { AppState } from 'reducers';
+import { PictureParam } from 'constants/index';
 
 import {
   PictureStyled,
@@ -14,7 +14,7 @@ import {
 } from './PictureStyles';
 
 export interface PictureProps {
-  picture: PictureParam
+  picture: PictureParam;
 }
 
 type OwnProps = {
@@ -38,18 +38,21 @@ const Picture: React.FC<PictureProps> = ({ picture }): React.ReactElement => {
       </div>
       {isPopUpOpen &&
         <PictureDetailsPopUpWrapper>
-          <PictureDetailsPopUp picture={picture} togglePopUpOpening={togglePopUpOpening} />
+          <PictureDetailsPopUp
+            picture={picture}
+            togglePopUpOpening={togglePopUpOpening}
+          />
         </PictureDetailsPopUpWrapper>
       }
     </PictureStyled>
   )
 };
 
-const mapStateToProps = (state: AppState, OwnProps: OwnProps) => {
+const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
   return {
-    picture: OwnProps.picture,
-    collection: state.picturesState.pictureList,
+    picture: ownProps.picture,
+    collection: state.pictures.pictureList,
   };
 };
 
-export default connect(mapStateToProps)(Picture);
+export default connect(mapStateToProps)(React.memo(Picture));

@@ -1,34 +1,52 @@
 export const FETCH_COLLECTION_REQUEST = 'FETCH_COLLECTION_REQUEST';
 export const FETCH_COLLECTION_FAILURE = 'FETCH_COLLECTION_FAILURE';
 export const FETCH_COLLECTION_SUCCESS = 'FETCH_COLLECTION_SUCCESS';
+export const FETCH_COLLECTION = 'FETCH_COLLECTION';
 
 export const FETCH_PICTURE_INFO_REQUEST = 'FETCH_PICTURE_INFO_REQUEST';
 export const FETCH_PICTURE_INFO_FAILURE = 'FETCH_PICTURE_INFO_FAILURE';
 export const FETCH_PICTURE_INFO_SUCCESS = 'FETCH_PICTURE_INFO_SUCCESS';
+export const FETCH_PICTURE_INFO = 'FETCH_PICTURE_INFO';
 
-interface FetchCollectionRequestAction {
+export interface FetchCollectionRequestAction {
   type: typeof FETCH_COLLECTION_REQUEST,
 }
-interface FetchCollectionSuccessAction {
+export interface FetchCollectionSuccessAction {
   type: typeof FETCH_COLLECTION_SUCCESS,
-  pictureList?: []
+  pictureList: {
+    artObjects: Array<PictureParam>,
+    count: number
+  }
 };
-interface FetchCollectionFailedAction {
+export interface FetchCollectionFailedAction {
   type: typeof FETCH_COLLECTION_FAILURE,
 };
-export type FetchCollectionTypes = FetchCollectionRequestAction | FetchCollectionSuccessAction | FetchCollectionFailedAction
+export interface FetchCollectionAction {
+  type: typeof FETCH_COLLECTION
+}
+export type FetchCollectionTypes = FetchCollectionRequestAction
+  | FetchCollectionSuccessAction
+  | FetchCollectionFailedAction
+  | FetchCollectionAction
 
-interface FetchPictureDetailsRequestAction {
+export interface FetchPictureDetailsRequestAction {
   type: typeof FETCH_PICTURE_INFO_REQUEST,
 }
-interface FetchPictureDetailsSuccessAction {
+export interface FetchPictureDetailsSuccessAction {
   type: typeof FETCH_PICTURE_INFO_SUCCESS,
-  picture: {} | null
+  picture: PictureDetailsParam
 };
-interface FetchPictureDetailsFailedAction {
+export interface FetchPictureDetailsFailedAction {
   type: typeof FETCH_PICTURE_INFO_FAILURE,
 };
-export type FetchPictureDetailsTypes = FetchPictureDetailsRequestAction | FetchPictureDetailsSuccessAction | FetchPictureDetailsFailedAction
+export interface FetchPictureDetailsAction {
+  type: typeof FETCH_PICTURE_INFO,
+  objectNumber: string
+}
+export type FetchPictureDetailsTypes = FetchPictureDetailsRequestAction
+  | FetchPictureDetailsSuccessAction
+  | FetchPictureDetailsFailedAction
+  | FetchPictureDetailsAction
 
 export interface PictureParam {
   hasImage: any,
@@ -59,10 +77,12 @@ export interface PictureDetailsParam {
 
 export interface PicturesState {
   isError: boolean,
-  pictureList: {
-    artObjects: Array<PictureParam> | undefined,
-    count: number
-  },
+  pictureList: PictureListParam,
   isLoading: boolean,
   picture: PictureDetailsParam,
+}
+
+export interface PictureListParam {
+  artObjects: Array<PictureParam>,
+  count: number
 }

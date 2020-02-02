@@ -22,8 +22,6 @@ module.exports = {
 
   rules: {
     'react/jsx-filename-extension': 'off',
-    // "@typescript-eslint/explicit-function-return-type": "off",
-    /* TODO: Change the below to error*/
     'import/no-unresolved': 'off',
     'import/order': 'off',
     'no-underscore-dangle': 'off',
@@ -57,10 +55,27 @@ module.exports = {
     'class-methods-use-this': 'off',
     'react/destructuring-assignment': 'off',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    '@typescript-eslint/interface-name-prefix': [true, "never-prefix"]
+    'react-hooks/exhaustive-deps': 'off',
+    '@typescript-eslint/interface-name-prefix': [true, "never-prefix"],
   },
   "overrides": [
+    {
+      "semi": true,
+      "overrides": [
+        {
+          "files": "*.test.js",
+          "options": {
+            "semi": true
+          }
+        },
+        {
+          "files": ["*.html", "legacy/**/*.js"],
+          "options": {
+            "tabWidth": 4
+          }
+        }
+      ]
+    },
     {
       // enable the rule specifically for TypeScript files
       "files": ["*.ts", "*.tsx"],

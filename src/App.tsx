@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import styled from 'styled-components';
 
-import { handleQueryParamChange } from './actions/searchActions';
-import { fetchCollection } from './actions/pictureActions';
-import { AppState } from './reducers/index';
-import Header from './components/Header/Header';
-import PictureList from './components/Collection/PictureList';
-import Pagination from './components/Pagination/Pagination';
-import { FetchCollectionTypes } from './constants/picturesActionTypes';
-import { SearchTypes } from './constants/searchActionTypes';
-import { PictureParam } from './constants/picturesActionTypes';
+import Header from 'components/Header/Header';
+import PictureList from 'components/Collection/PictureList';
+import Pagination from 'components/Pagination/Pagination';
+import { AppState } from 'reducers';
+import { PictureParam, FetchCollectionTypes, SearchTypes } from './constants';
+import { handleQueryParamChange, fetchCollection } from 'actions';
 
 const InProgressWrapper = styled.div`
   text-align: center;
   font-size: 27px;
+`
+const NoFoundMessage = styled.div`
+  text-align: center;
+  margin: 50px auto;
+  width: 500px;
 `
 
 interface AppProps {
@@ -29,13 +31,13 @@ interface AppProps {
   handleQueryParamChange: typeof handleQueryParamChange,
 }
 
-const App = React.memo(function App({
+const App = ({
   match,
   fetchCollection,
   collection,
   isLoading,
   handleQueryParamChange,
-}: AppProps) {
+}: AppProps) => {
   useEffect(() => {
     let queryParam;
     if (match.params.objectType) {
@@ -48,9 +50,10 @@ const App = React.memo(function App({
   const pictureList = isThereCollection ? (
     <PictureList />
   ) : (
-      <div className="no-found">No art object could be found by your query</div>
+      <NoFoundMessage>No art object could be found by your query</NoFoundMessage>
     );
 
+  console.log('render')
   return (
     <Fragment>
       <Header />
@@ -58,15 +61,15 @@ const App = React.memo(function App({
       {!isLoading && <Pagination />}
     </Fragment>
   );
-})
+};
 
 const mapStateToProps = (state: AppState) => {
   return {
-    collection: state.picturesState.pictureList,
-    isLoading: state.picturesState.isLoading,
+    collection: state.pictures.pictureList,
+    isLoading: state.pictures.isLoading,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|SearchTypes>) => {
+const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes | SearchTypes>) => {
   return bindActionCreators(
     {
       fetchCollection,
@@ -79,4 +82,4 @@ const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|SearchTypes>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(React.memo(App));

@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 
 import Picture from './Picture/Picture';
 import { PictureListStyled } from './PictureListStyles';
-import { AppState } from './../../reducers/index';
-import { PictureParam } from './../../constants/picturesActionTypes'
+import { AppState } from 'reducers';
+import { PictureListParam, PictureParam } from 'constants/index';
 
 export interface PictureListProps {
-  collection: {
-    artObjects: PictureParam[],
-    count: number
-  },
+  collection: PictureListParam,
 }
-
 
 const PictureList: React.FC<PictureListProps> = ({ collection }): React.ReactElement => {
   return (
@@ -28,8 +24,8 @@ const PictureList: React.FC<PictureListProps> = ({ collection }): React.ReactEle
 
 const mapStateToProps = (state: AppState) => {
   return {
-    collection: state.picturesState.pictureList,
+    collection: state.pictures.pictureList,
   };
 };
 
-export default connect(mapStateToProps)(PictureList);
+export default connect(mapStateToProps)(React.memo(PictureList));

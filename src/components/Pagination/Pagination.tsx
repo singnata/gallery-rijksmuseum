@@ -1,12 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { AppState } from './../../reducers/index';
-import { handlePageSizeChange, handlePageNumberChange } from './../../actions/paginationActions';
-import { fetchCollection } from '../../actions/pictureActions';
-import { FetchCollectionTypes } from './../../constants/picturesActionTypes';
-import { PaginationTypes } from './../../constants/paginationActionTypes';
-import { SearchTypes } from './../../constants/searchActionTypes';
+import { AppState } from 'reducers';
+import { handlePageSizeChange, handlePageNumberChange, fetchCollection } from 'actions';
+import { FetchCollectionTypes, PaginationTypes, SearchTypes } from 'constants/index';
 import {
   PaginationStyled,
   PicturesPerPageWrapper,
@@ -30,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({
   handlePageNumberChangeAction,
   picturesCount,
 }) => {
-  const count = picturesCount > 10000 ? 10000 : picturesCount
+  const count = picturesCount > 10000 ? 10000 : picturesCount;
   const totalPages = Math.ceil(count / pageSize);
   const perPageList = [10, 50, 100];
   const firstUpdate = useRef(true);
@@ -41,19 +38,18 @@ const Pagination: React.FC<PaginationProps> = ({
       return;
     }
 
-    fetchCollectionAction()
-  }, [pageSize, currentPageNumber, fetchCollectionAction])
+    fetchCollectionAction();
+  }, [pageSize, currentPageNumber, fetchCollectionAction]);
 
   const onChangePageSize = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, pageSize: number) => {
     event.preventDefault();
-    handlePageSizeChangeAction(pageSize);
-    if (currentPageNumber > totalPages) {
-      handlePageSizeChangeAction(1)
+    if (currentPageNumber > totalPages / pageSize) {
+      handlePageNumberChangeAction(1)
     }
+    handlePageSizeChangeAction(pageSize);
   };
 
   const onChangePageNumber = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, pageNumber: number) => {
-    console.log('pageNumber', pageNumber)
     event.preventDefault()
     handlePageNumberChangeAction(pageNumber)
   };
@@ -103,7 +99,7 @@ const Pagination: React.FC<PaginationProps> = ({
       return renderedPages;
     }
 
-    totalPagesArray.forEach((pageNumber: any) => {
+    totalPagesArray.forEach((pageNumber: number) => {
       if (
         pageNumber <= marginPagesDisplayed
         || pageNumber > totalPages - marginPagesDisplayed
@@ -152,8 +148,6 @@ const Pagination: React.FC<PaginationProps> = ({
             {item}
           </span>
         })}
-        {/* {getPerPage()} */}
-        {/* <span>10</span> / <span>50</span> / <span>100</span> */}
       </PicturesPerPageWrapper>
     </PaginationStyled>
   )
@@ -161,12 +155,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
 const mapStateToProps = (state: AppState) => {
   return {
-    currentPageNumber: state.paginationState.pageNumber,
-    pageSize: state.paginationState.pageSize,
-    picturesCount: state.picturesState.pictureList.count,
+    currentPageNumber: state.pagination.pageNumber,
+    pageSize: state.pagination.pageSize,
+    picturesCount: state.pictures.pictureList.count,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|PaginationTypes|SearchTypes>) => {
+const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes | PaginationTypes | SearchTypes>) => {
   return bindActionCreators(
     {
       fetchCollectionAction: fetchCollection,
@@ -180,4 +174,4 @@ const mapDispatchToProps = (dispatch: Dispatch<FetchCollectionTypes|PaginationTy
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Pagination);
+)(React.memo(Pagination));

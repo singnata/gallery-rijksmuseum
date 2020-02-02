@@ -8,7 +8,7 @@ import {
   FETCH_PICTURE_INFO_REQUEST,
   FETCH_PICTURE_INFO_FAILURE,
   FETCH_PICTURE_INFO_SUCCESS,
-} from './../constants/picturesActionTypes';
+} from 'constants/index';
 
 const initialState: PicturesState = {
   isError: false,
@@ -20,7 +20,7 @@ const initialState: PicturesState = {
   picture: null,
 };
 
-const picturesReducer = (state: any = initialState, action: FetchCollectionTypes | FetchPictureDetailsTypes): PicturesState => {
+const picturesReducer = (state = initialState, action: FetchCollectionTypes | FetchPictureDetailsTypes): PicturesState => {
   switch (action.type) {
     case FETCH_COLLECTION_REQUEST:
       return { ...state, isLoading: true, isError: false };
